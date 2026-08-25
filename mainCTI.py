@@ -23,71 +23,61 @@ def main():
     quantidade_de_maços = "N/A"
     tempo_de_parada = "N/A"
 
-
-    data_atual = datetime.now()
-    idade = data_atual.year - data_de_nascimento.year
-    idade -= (data_atual.month, data_atual.day) < (data_de_nascimento.month, data_de_nascimento.day)
-    idade = int(idade)
-    
-    if  idade < 0 or idade > 150:
-        print ("Idade invalida")
-    else: 
-        print("Idade do paciente: ", idade, data_de_nascimento.strftime("%d/%m/%Y"))
-
     while True:
-        data_de_nascimento = datetime.strptime(input("Data de nascimento (ddmmyyyy): "), "%d%m%Y")
-    
         data_atual = datetime.now()
         idade = data_atual.year - data_de_nascimento.year
         idade -= (data_atual.month, data_atual.day) < (data_de_nascimento.month, data_de_nascimento.day)
         idade = int(idade)
-    
         if idade < 0 or idade > 150:
             print("Idade invalida, tente novamente.")
         else:
             break
-
+        
+    print("Idade do paciente: ", idade, data_de_nascimento.strftime("%d/%m/%Y"))
     print("Nome do paciente: ", paciente)
     print("Numero do atendimento: ", numero_atendimento)
     print("Diagnostico: ", diagnostico)
-
-    if tubo == "sim":
-        tamanho_do_tubo = input("Tamanho do tubo: ")
-        rima = input("Rima: ")
-        print ("tamanho do tubo: ", tamanho_do_tubo, "Rima: ", rima)
-    else:
-        print("Paciente não está em uso de VMI")               
+    
+    if nivel_de_contato == "alerta":
+        print("Perguntas feitas para o paciente: " + paciente)   
+    elif nivel_de_contato == "irresponsivo":
+        nome_do_acompanhante = input("Nome do acompanhante: ")
+        print("Perguntas feitas para o acompanhante do  paciente:    " + nome_do_acompanhante)
+            
     
     if oxigenio == "sim":
-        fluxo_de_oxigenio = int(input("Fluxo de oxigenio: "))
+        fluxo_de_oxigenio = float(input("Fluxo de oxigenio: ").replace(",", "."))
         print ("Fluxo de oxigenio: ", fluxo_de_oxigenio)
     else:
         print("Paciente não está em uso de oxigenio")
+            
     
-    if nivel_de_contato == "alerta":
-            print("Perguntas feitas para o paciente: " + paciente)   
-    elif nivel_de_contato == "irresponsivo":
-            nome_do_acompanhante = input("Nome do acompanhante: ")
-            print("Perguntas feitas para o acompanhante do  paciente:    " + nome_do_acompanhante)
-    
+    if tubo == "sim":
+            tamanho_do_tubo =float(input("Tamanho do tubo: ").replace(",", "."))
+            rima = float(input("Rima: ").replace(",", "."))
+            print ("tamanho do tubo: ", tamanho_do_tubo, "Rima: ", rima)
+    else:
+            print("Paciente não está em uso de VMI")               
+            
+        
     if ims >=0 and ims <=4:
-        print("Nivel maximo de assistencia")
+            print("Nivel maximo de assistencia")
     elif ims >=5 and ims <=7:
-        print("Nivel moderado de assistencia.")
+            print("Nivel moderado de assistencia.")
     elif ims >= 8 and ims <=10:
-        print("Nivel minimo de assistencia.")
-
+            print("Nivel minimo de assistencia.")
+            
+        
     if tabagista == "sim":
         tempo_de_tabagismo = int(input("Tempo de tabagismo: "))
-        quantidade_de_maços = int(input("Quantidade de maços: "))
+        quantidade_de_maços = float(input("Quantidade de maços: ").replace(",", "."))
         print ("Tempo de tabagismo: ", tempo_de_tabagismo, "Quantidade de maços: ", quantidade_de_maços)
     elif tabagista == "parou":
-        tempo_de_parada = int(input("Tempo de parada: "))
+        tempo_de_parada = float(input("Tempo de parada: ").replace(",", "."))
         print ("Tempo de parada: ", tempo_de_parada)
     else:
         print("Paciente não é tabagista")  
-
-
+       
 
     formulario_ADM = {
         "Paciente": paciente,
@@ -107,7 +97,6 @@ def main():
         "Tempo de Parada": tempo_de_parada,      
     }   
    
-    
     if os.path.exists ("formulario_ADM.xlsx"): 
             planilha = load_workbook("formulario_ADM.xlsx")
             aba = planilha.active
